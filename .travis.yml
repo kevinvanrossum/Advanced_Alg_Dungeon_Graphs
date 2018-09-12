@@ -8,4 +8,4 @@ install:
 
 script:
 - dotnet build
-- dotnet test Advanced_Alg_Dungeon_Graphs_Unit_Tests\Advanced_Alg_Dungeon_Graphs_Unit_Tests.csproj
+- dotnet test Advanced_Alg_Dungeon_Graphs_Unit_Tests/Advanced_Alg_Dungeon_Graphs_Unit_Tests.csproj 
