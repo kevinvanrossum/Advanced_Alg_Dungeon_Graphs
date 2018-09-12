@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advanced_Alg_Dungeon_Graphs", "Advanced_Alg_Dungeon_Graphs\Advanced_Alg_Dungeon_Graphs.csproj", "{A2C3C866-9E9C-4FF5-93BB-4026C8992A95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advanced_Alg_Dungeon_Graphs_Unit_Tests", "Advanced_Alg_Dungeon_Graphs_Unit_Tests\Advanced_Alg_Dungeon_Graphs_Unit_Tests.csproj", "{3FB32B52-E06A-4F3D-9314-68B7FF1213BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{A2C3C866-9E9C-4FF5-93BB-4026C8992A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2C3C866-9E9C-4FF5-93BB-4026C8992A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2C3C866-9E9C-4FF5-93BB-4026C8992A95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FB32B52-E06A-4F3D-9314-68B7FF1213BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FB32B52-E06A-4F3D-9314-68B7FF1213BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FB32B52-E06A-4F3D-9314-68B7FF1213BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FB32B52-E06A-4F3D-9314-68B7FF1213BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

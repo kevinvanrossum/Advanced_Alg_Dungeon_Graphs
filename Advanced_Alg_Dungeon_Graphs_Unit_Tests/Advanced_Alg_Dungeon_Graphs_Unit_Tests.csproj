@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Advanced_Alg_Dungeon_Graphs\Advanced_Alg_Dungeon_Graphs.csproj">
+      <Project>{A2C3C866-9E9C-4FF5-93BB-4026C8992A95}</Project>
+      <Name>Advanced_Alg_Dungeon_Graphs</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
