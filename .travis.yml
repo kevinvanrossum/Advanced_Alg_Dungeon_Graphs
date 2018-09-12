@@ -1,0 +1,11 @@
+language: csharp
+dist: trusty
+mono: none
+dotnet: 2.1.4
+
+install:
+- dotnet restore
+
+script:
+- dotnet build
+- dotnet test Advanced_Alg_Dungeon_Graphs_Unit_Tests\Advanced_Alg_Dungeon_Graphs_Unit_Tests.csproj
