@@ -18,10 +18,9 @@ namespace Advanced_Alg_Dungeon_Graphs.Factories
 
         public IDungeon Create()
         {
-            var dungeon = new Dungeon();
-
             const int xSize = 5;
             const int ySize = 5;
+            var dungeon = new Dungeon(5, 5);
 
             AddRoomsToDungeon(xSize, ySize, dungeon);
 
