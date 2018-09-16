@@ -1,4 +1,5 @@
-﻿using Advanced_Alg_Dungeon_Graphs.Factories;
+﻿using Advanced_Alg_Dungeon_Graphs.Builders;
+using Advanced_Alg_Dungeon_Graphs.Factories;
 using Advanced_Alg_Dungeon_Graphs.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,7 @@ namespace Advanced_Alg_Dungeon_Graphs
                 .AddSingleton<IHallwayFactory, HallwayFactory>()
                 .AddSingleton<IRoomFactory, RoomFactory>()
                 .AddSingleton<IDungeonFactory, DungeonFactory>()
+                .AddSingleton<IDungeonBuilder, DungeonBuilder>()
                 .BuildServiceProvider();
 
             var dungeonController = new DungeonController(serviceProvider);
