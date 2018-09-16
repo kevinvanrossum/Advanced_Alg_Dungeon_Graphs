@@ -1,4 +1,5 @@
-﻿using Advanced_Alg_Dungeon_Graphs.Models;
+﻿using Advanced_Alg_Dungeon_Graphs.Factories;
+using Advanced_Alg_Dungeon_Graphs.Models;
 using Xunit;
 
 namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Models
@@ -17,9 +18,9 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Models
         {
             var room = new Room();
 
-            _hallway.VertexA = room;
+            _hallway.RoomA = room;
             
-            Assert.Equal(room, _hallway.VertexA);
+            Assert.Equal(room, _hallway.RoomA);
 
         }  
         
@@ -28,9 +29,9 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Models
         {
             var room = new Room();
 
-            _hallway.VertexB = room;
+            _hallway.RoomB = room;
             
-            Assert.Equal(room, _hallway.VertexB);
+            Assert.Equal(room, _hallway.RoomB);
 
         }
 

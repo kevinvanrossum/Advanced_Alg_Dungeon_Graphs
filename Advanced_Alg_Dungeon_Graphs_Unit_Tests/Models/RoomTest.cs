@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Advanced_Alg_Dungeon_Graphs.Models;
 using Xunit;
 
@@ -14,43 +15,33 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Models
         }
 
         [Fact]
-        public void ItStoresEdgeNorthProperly()
+        public void ItStoresXProperly()
         {
-            var edge = new Hallway();
-
-            _room.EdgeNorth = edge;
+            const int x = 0;
             
-            Assert.Equal(edge, _room.EdgeNorth);
+            _room.X = x;
+            
+            Assert.Equal(x, _room.X);
         }
         
         [Fact]
-        public void ItStoresEdgeEastProperly()
+        public void ItStoresYProperly()
         {
-            var edge = new Hallway();
-
-            _room.EdgeEast = edge;
+            const int y = 0;
             
-            Assert.Equal(edge, _room.EdgeEast);
+            _room.Y = y;
+            
+            Assert.Equal(y, _room.Y);
         }
-        
-        [Fact]
-        public void ItStoresEdgeSouthProperly()
-        {
-            var edge = new Hallway();
 
-            _room.EdgeSouth = edge;
-            
-            Assert.Equal(edge, _room.EdgeSouth);
-        }
-        
         [Fact]
-        public void ItStoresEdgeWestProperly()
+        public void ItStoresAdjacentHallwaysProperly()
         {
-            var edge = new Hallway();
+            var adjacentHalways = new List<IHallway>();
 
-            _room.EdgeWest = edge;
+            _room.AdjacentHallways = adjacentHalways;
             
-            Assert.Equal(edge, _room.EdgeWest);
+            Assert.Equal(adjacentHalways, _room.AdjacentHallways);
         }
     }
 }

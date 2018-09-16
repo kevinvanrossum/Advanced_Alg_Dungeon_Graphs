@@ -1,10 +1,28 @@
-﻿namespace Advanced_Alg_Dungeon_Graphs.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace Advanced_Alg_Dungeon_Graphs.Models
 {
-    public class Room : IVertex
+    public class Room : IRoom, IPrintable
     {
-        public IEdge EdgeNorth { get; set; }
-        public IEdge EdgeEast { get; set; }
-        public IEdge EdgeWest { get; set; }
-        public IEdge EdgeSouth { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        
+        public List<IHallway> AdjacentHallways { get; set; }
+
+        public Room()
+        {
+            AdjacentHallways = new List<IHallway>();
+        }
+        
+        public void AddAdjacentHallway(IHallway hallway)
+        {
+            AdjacentHallways.Add(hallway);
+        }
+
+        public string ToPrintable()
+        {
+            return State.NotVisited.ToString();
+        }
     }
 }

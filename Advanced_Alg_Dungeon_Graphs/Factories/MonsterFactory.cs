@@ -5,7 +5,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Factories
 {
     public class MonsterFactory : IMonsterFactory
     {
-        private Random _randomNumberGenerator;
+        private readonly Random _randomNumberGenerator;
 
         public MonsterFactory()
         {
