@@ -1,14 +1,12 @@
-﻿using System;
-using Advanced_Alg_Dungeon_Graphs.Factories;
-using Advanced_Alg_Dungeon_Graphs.Models;
+﻿using Advanced_Alg_Dungeon_Graphs.Factories;
 using Advanced_Alg_Dungeon_Graphs.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Advanced_Alg_Dungeon_Graphs
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             //setup our DI
             var serviceProvider = new ServiceCollection()
@@ -19,6 +17,8 @@ namespace Advanced_Alg_Dungeon_Graphs
                 .BuildServiceProvider();
 
             var dungeonController = new DungeonController(serviceProvider);
+            
+            // Boot our dungeon!
             dungeonController.Explore();
         }
     }

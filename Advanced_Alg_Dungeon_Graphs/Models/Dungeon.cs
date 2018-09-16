@@ -53,9 +53,27 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
             {
                 for (var x = 0; x < XSize; x++)
                 {
-                    var currentRoom = (IPrintable) GetRoom(x, y);
+                    var currentRoom = (Room) GetRoom(x, y);
                     result += $"{currentRoom.ToPrintable()}";
+                    if (currentRoom.X < XSize - 1)
+                    {
+                        var hallway = ((Hallway) currentRoom.AdjacentHallways.First(h => h.RoomA == currentRoom));
+                        result += $" {hallway.ToPrintable()} ";
+                    }
                 }
+
+                result += System.Environment.NewLine;
+
+                for (var x = 0; x < XSize; x++)
+                {
+                    var currentRoom = (Room) GetRoom(x, y);
+                    if (currentRoom.Y < YSize - 1)
+                    {
+                        var hallway = ((Hallway) currentRoom.AdjacentHallways.Last(h => h.RoomA == currentRoom));
+                        result += $"{hallway.ToPrintable()}   ";
+                    }
+                }
+
                 result += System.Environment.NewLine;
             }
 
