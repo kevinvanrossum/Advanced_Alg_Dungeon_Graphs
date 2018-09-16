@@ -18,8 +18,8 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Factories
         {
             var hallway = _hallwayFactory.Create();
             
-            Assert.IsAssignableFrom(typeof(IHallway), hallway);
-            Assert.IsAssignableFrom(typeof(IMonster), hallway.Monster);
+            Assert.IsAssignableFrom<IHallway>(hallway);
+            Assert.IsAssignableFrom<IMonster>(hallway.Monster);
         }
 
         [Fact]
@@ -30,10 +30,10 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Factories
             
             var hallway = _hallwayFactory.CreateWithRooms(roomA, roomB);
             
-            Assert.IsAssignableFrom(typeof(IHallway), hallway);
-            Assert.IsAssignableFrom(typeof(IMonster), hallway.Monster);
-            Assert.IsAssignableFrom(typeof(IRoom), hallway.RoomA);
-            Assert.IsAssignableFrom(typeof(IRoom), hallway.RoomB);
+            Assert.IsAssignableFrom<IHallway>(hallway);
+            Assert.IsAssignableFrom<IMonster>(hallway.Monster);
+            Assert.IsAssignableFrom<IRoom>(hallway.RoomA);
+            Assert.IsAssignableFrom<IRoom>(hallway.RoomB);
             Assert.Equal(roomA, hallway.RoomA);
             Assert.Equal(roomB, hallway.RoomB);
         }

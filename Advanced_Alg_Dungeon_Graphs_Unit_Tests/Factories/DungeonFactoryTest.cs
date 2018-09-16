@@ -18,10 +18,10 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Factories
         {
             var dungeon = _dungeonFactory.Create();
 
-            Assert.IsAssignableFrom(typeof(IDungeon), dungeon);
-            Assert.Equal(dungeon.Rooms.Count, 25);
-            Assert.Equal(dungeon.XSize, 5);
-            Assert.Equal(dungeon.YSize, 5);
+            Assert.IsAssignableFrom<IDungeon>(dungeon);
+            Assert.Equal(25, dungeon.Rooms.Count);
+            Assert.Equal(5, dungeon.XSize);
+            Assert.Equal(5, dungeon.YSize);
         }
 
         [Fact]
@@ -31,10 +31,10 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Factories
             const int y = 9;
             var dungeon = _dungeonFactory.CreateWithXSizeAndYSize(x, y);
 
-            Assert.IsAssignableFrom(typeof(IDungeon), dungeon);
-            Assert.Equal(dungeon.Rooms.Count, x * y);
-            Assert.Equal(dungeon.XSize, x);
-            Assert.Equal(dungeon.YSize, y);
+            Assert.IsAssignableFrom<IDungeon>(dungeon);
+            Assert.Equal(x * y, dungeon.Rooms.Count);
+            Assert.Equal(x, dungeon.XSize);
+            Assert.Equal(y, dungeon.YSize);
         }
     }
 }

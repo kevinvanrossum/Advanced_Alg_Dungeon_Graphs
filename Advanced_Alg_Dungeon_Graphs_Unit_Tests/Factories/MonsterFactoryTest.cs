@@ -18,7 +18,7 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Factories
         {
             var monster = _monsterFactory.Create();
             
-            Assert.IsAssignableFrom(typeof(IMonster), monster);
+            Assert.IsAssignableFrom<IMonster>(monster);
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Factories
         {
             var monster = _monsterFactory.CreateMonsterWithRandomLevel();
             
-            Assert.IsAssignableFrom(typeof(IMonster), monster);
+            Assert.IsAssignableFrom<IMonster>(monster);
             Assert.InRange(monster.Level, 0, 9);
         }
     }

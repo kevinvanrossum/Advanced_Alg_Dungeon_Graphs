@@ -17,9 +17,9 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Models
         {
             const int level = 4;
 
-            _monster.Level = 4;
+            _monster.Level = level;
 
-            Assert.Equal(_monster.Level, level);
+            Assert.Equal(level, _monster.Level);
         }
         
     }
