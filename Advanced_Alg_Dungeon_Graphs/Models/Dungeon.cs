@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Advanced_Alg_Dungeon_Graphs.Models
@@ -43,7 +43,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
 
         public IRoom GetRoom(int x, int y)
         {
-            return this.Rooms.FirstOrDefault(room => room.X == x && room.Y == y);
+            return Rooms.FirstOrDefault(room => room.X == x && room.Y == y);
         }
 
         public string ToPrintable()
@@ -62,7 +62,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
                     }
                 }
 
-                result += System.Environment.NewLine;
+                result += Environment.NewLine;
 
                 for (var x = 0; x < XSize; x++)
                 {
@@ -74,7 +74,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
                     }
                 }
 
-                result += System.Environment.NewLine;
+                result += Environment.NewLine;
             }
 
             return result;

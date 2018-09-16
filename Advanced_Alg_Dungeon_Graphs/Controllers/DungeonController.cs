@@ -1,6 +1,5 @@
 ﻿using System;
 using Advanced_Alg_Dungeon_Graphs.Builders;
-using Advanced_Alg_Dungeon_Graphs.Factories;
 using Advanced_Alg_Dungeon_Graphs.Models;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -71,7 +70,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             {
                 if (c == 'E' || c == 'S')
                 {
-                    Console.ForegroundColor = System.ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(c);
                 }
                 else
@@ -96,7 +95,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             PrintWithMarkup("~ = Hallway: ingestort");
             Console.WriteLine();
             PrintWithMarkup("0 = Hallway: level tegenstander (cost)");
-            Console.WriteLine(System.Environment.NewLine);
+            Console.WriteLine(Environment.NewLine);
         }
     }
 }

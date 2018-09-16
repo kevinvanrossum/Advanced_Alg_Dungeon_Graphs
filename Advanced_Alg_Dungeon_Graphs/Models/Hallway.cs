@@ -1,6 +1,4 @@
-﻿using System;
-using Advanced_Alg_Dungeon_Graphs.Factories;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Advanced_Alg_Dungeon_Graphs.Factories;
 
 namespace Advanced_Alg_Dungeon_Graphs.Models
 {

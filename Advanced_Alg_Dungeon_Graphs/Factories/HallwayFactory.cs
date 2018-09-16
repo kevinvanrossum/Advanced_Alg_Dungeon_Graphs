@@ -21,7 +21,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Factories
 
         public IHallway CreateWithRooms(IRoom roomA, IRoom roomB)
         {
-            var hallway = this.Create();
+            var hallway = Create();
             hallway.RoomA = roomA;
             hallway.RoomB = roomB;
             return hallway;

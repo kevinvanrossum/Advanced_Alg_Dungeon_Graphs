@@ -1,5 +1,4 @@
-﻿using Advanced_Alg_Dungeon_Graphs.Factories;
-using Advanced_Alg_Dungeon_Graphs.Models;
+﻿using Advanced_Alg_Dungeon_Graphs.Models;
 using Xunit;
 
 namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Models
