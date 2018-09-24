@@ -16,56 +16,56 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             _serviceProvider = serviceProvider;
         }
 
-    public void Explore()
-    {
-        var builder = _serviceProvider.GetService<IDungeonBuilder>();
-
-        Console.WriteLine("How many rooms vertical?");
-        var xSize = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("How many rooms horizontal?");
-        var ySize = Convert.ToInt32(Console.ReadLine());
-        builder.SetSize(xSize, ySize);
-
-        Console.WriteLine("Do you want random starting and ending rooms [Y|N]");
-        if (Console.ReadKey().Key == ConsoleKey.Y)
+        public void Explore()
         {
-          builder
-              .SetRandomStartingRoom()
-              .SetRandomEndingRoom();
-        }
-        else
-        {
-          Console.WriteLine("What is the X of the starting room?");
-          var xStart = Convert.ToInt32(Console.ReadLine());
-          Console.WriteLine("What is the Y of the starting room?");
-          var yStart = Convert.ToInt32(Console.ReadLine());
-          builder.SetStartingRoom(xStart, yStart);
+            var builder = _serviceProvider.GetService<IDungeonBuilder>();
 
-          Console.WriteLine("What is the X of the ending room?");
-          var xEnd = Convert.ToInt32(Console.ReadLine());
-          Console.WriteLine("What is the Y of the ending room?");
-          var yEnd = Convert.ToInt32(Console.ReadLine());
-          builder.SetEndingRoom(xEnd, yEnd);
-        }
+            Console.WriteLine("How many rooms vertical?");
+            var xSize = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("How many rooms horizontal?");
+            var ySize = Convert.ToInt32(Console.ReadLine());
+            builder.SetSize(xSize, ySize);
 
-        _dungeon = builder.GetDungeon();
+            Console.WriteLine("Do you want random starting and ending rooms [Y|N]");
+            if (Console.ReadKey().Key == ConsoleKey.Y)
+            {
+              builder
+                  .SetRandomStartingRoom()
+                  .SetRandomEndingRoom();
+            }
+            else
+            {
+              Console.WriteLine("What is the X of the starting room?");
+              var xStart = Convert.ToInt32(Console.ReadLine());
+              Console.WriteLine("What is the Y of the starting room?");
+              var yStart = Convert.ToInt32(Console.ReadLine());
+              builder.SetStartingRoom(xStart, yStart);
 
-        Console.Clear();
+              Console.WriteLine("What is the X of the ending room?");
+              var xEnd = Convert.ToInt32(Console.ReadLine());
+              Console.WriteLine("What is the Y of the ending room?");
+              var yEnd = Convert.ToInt32(Console.ReadLine());
+              builder.SetEndingRoom(xEnd, yEnd);
+            }
 
-        PrintHelpText();
-        PrintDungeon();
-        Console.WriteLine("Acties: talisman, handgranaat, kompas");
+            _dungeon = builder.GetDungeon();
 
-        while (HandleAction() != false)
-        {
+            Console.Clear();
+
+            PrintHelpText();
+            PrintDungeon();
+            Console.WriteLine("Acties: talisman, handgranaat, kompas");
+
+            while (HandleAction() != false)
+            {
+                Console.ReadLine();
+            }
+            Console.WriteLine("The end");
             Console.ReadLine();
-        }
-        Console.WriteLine("The end");
-        Console.ReadLine();
             
         }
 
-    private bool HandleAction()
+        private bool HandleAction()
         {
             switch (Console.ReadLine())
             {
@@ -73,10 +73,10 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 case "handgranaat": break;
                 case "kompas": break;
                 /* case noord
-                 * case oost
-                 * case zuid
-                 * case west
-                 */                 
+                  * case oost
+                  * case zuid
+                  * case west
+                  */                 
             }
             return false;
         }
@@ -84,51 +84,40 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
         public int ActivateTalisman() // breadth first search
         {
             if (_dungeon == null || _dungeon.StartRoom == null || _dungeon.EndRoom == null) return -1;
-
-            int roomCount = 0;
+            
             Dictionary<IRoom, IRoom> roomMemory = new Dictionary<IRoom, IRoom>();
             Queue<IRoom> queue = new Queue<IRoom>();
       
             queue.Enqueue(_dungeon.StartRoom);
-            while (queue.Count > 0)
-            {
-                IRoom current = queue.Dequeue();
-                IRoom next = null;
-                if (current == null) continue;
+            IRoom current = null;
 
+            while (queue.Count > 0 && current != _dungeon.EndRoom)
+            {
+                current = queue.Dequeue();
+                if (current == null) continue;
                 foreach (IHallway hallway in current.AdjacentHallways)
                 {
-                    if (hallway.RoomA == current) // Code for Room B
-                    {
-                        if (roomMemory.ContainsKey(hallway.RoomB)) continue;
-                        next = hallway.RoomB;
-                        roomMemory[next] = current;
-                        queue.Enqueue(next);
-                    }
-                    else if (hallway.RoomB == current) // Code for Room A
-                      {
-                        if (roomMemory.ContainsKey(hallway.RoomA)) continue;
-                        next = hallway.RoomA;
-                        roomMemory[next] = current;
-                        queue.Enqueue(next);
-                    }
+                    IRoom roomAtOtherSide = (hallway.RoomA == current) ? hallway.RoomB : hallway.RoomA;
+                    if (roomMemory.ContainsKey(roomAtOtherSide)) continue;
+                    roomMemory[roomAtOtherSide] = current;
+                    queue.Enqueue(roomAtOtherSide);
                 }
             }
 
             return GetShortestPath(roomMemory);
         }
 
-    private int GetShortestPath(Dictionary<IRoom, IRoom> memory)
-    {
-      int count = 0;
-      var current = _dungeon.EndRoom;
-      while (!current.Equals(_dungeon.StartRoom))
-      {
-        count++;
-        current = memory[current];
-      }
-      return count;
-    }
+        private int GetShortestPath(Dictionary<IRoom, IRoom> memory)
+        {
+            int count = 0;
+            var current = _dungeon.EndRoom;
+            while (!current.Equals(_dungeon.StartRoom))
+            {
+                count++;
+                current = memory[current];
+            }
+            return count;
+        }
         private void PrintDungeon()
         {
             var printable = ((IPrintable) _dungeon).ToPrintable();
@@ -153,7 +142,6 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             }
         }
 
-
         private static void PrintHelpText()
         {
             PrintWithMarkup("S = Room: startpunt");
@@ -171,11 +159,11 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
         }
 
 #region Testing Purpose - Should be moved
-// Creates a default 5x5 dungeon for usage in the tests. Should probably be moved somewhere.
+        // Creates a default 10x10 dungeon for usage in the tests. Should probably be moved somewhere.
         public IDungeon CreateTestDungeon()
         {
             var builder = _serviceProvider.GetService<IDungeonBuilder>();
-            builder.SetSize(5,5);
+            builder.SetSize(10,10);
             builder.SetStartingRoom(0, 0);
             builder.SetEndingRoom(4, 4);
             _dungeon = builder.GetDungeon();
