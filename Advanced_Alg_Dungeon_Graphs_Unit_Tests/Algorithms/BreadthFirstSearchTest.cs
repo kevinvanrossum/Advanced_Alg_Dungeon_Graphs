@@ -30,10 +30,17 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Algorithms
     [Fact]
     public void ItCanSearchBreadthFirst()
     {
-      _controller.CreateTestDungeon(5, 5);
+      _controller.CreateTestDungeon(5, 5, false);
+      var value = _controller.ActivateTalisman();
+      Assert.Equal(8, value);
+    }
+
+    [Fact]
+    public void ItDidNotFail()
+    {
+      _controller.CreateTestDungeon(100, 100, true);
       var value = _controller.ActivateTalisman();
       Assert.NotStrictEqual(-1, value);
-      Assert.Equal(8, value);
     }
   }
 }

@@ -81,13 +81,18 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             return false;
         }
 
-        public int ActivateTalisman() // breadth first search
+        /// <summary>
+        /// Search Breadth-First through the dungeon from the StartRoom to the EndRoom.
+        /// After memorizing from which Room each Room is reached, call GetShortestPath()
+        /// to determine the length of the shortest path.
+        /// </summary>
+        /// <returns>The amount of steps needed to reach the EndRoom from StartRoom</returns>
+        public int ActivateTalisman() 
         {
             if (_dungeon == null || _dungeon.StartRoom == null || _dungeon.EndRoom == null) return -1;
-            
+
             Dictionary<IRoom, IRoom> roomMemory = new Dictionary<IRoom, IRoom>();
             Queue<IRoom> queue = new Queue<IRoom>();
-      
             queue.Enqueue(_dungeon.StartRoom);
             IRoom current = null;
 
@@ -103,10 +108,14 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                     queue.Enqueue(roomAtOtherSide);
                 }
             }
-
             return GetShortestPath(roomMemory);
         }
 
+        /// <summary>
+        /// Determine the shortest path based on memory.
+        /// </summary>
+        /// <param name="memory">Dictionary containing the Room from which some Room was reached.</param>
+        /// <returns>The amount of steps needed to reach EndRoom from StartRoom.</returns>
         private int GetShortestPath(Dictionary<IRoom, IRoom> memory)
         {
             int count = 0;
@@ -118,6 +127,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             }
             return count;
         }
+
         private void PrintDungeon()
         {
             var printable = ((IPrintable) _dungeon).ToPrintable();
@@ -159,13 +169,26 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
         }
 
 #region Testing Purpose - Should be moved
-        // Creates a default 10x10 dungeon for usage in the tests. Should probably be moved somewhere.
-        public IDungeon CreateTestDungeon(int x, int y)
+        /// <summary>
+        /// Creates a default dungeon with StartRoom(4,4) and EndRoom(0,0)
+        /// </summary>
+        /// <param name="x">Width of dungeon</param>
+        /// <param name="y">Height of dungeon</param>
+        /// <returns>A new dungeon.</returns>
+        public IDungeon CreateTestDungeon(int x, int y, bool random)
         {
             var builder = _serviceProvider.GetService<IDungeonBuilder>();
             builder.SetSize(x,y);
-            builder.SetStartingRoom(4, 4);
-            builder.SetEndingRoom(0, 0);
+            if (random)
+            {
+                builder.SetRandomStartingRoom();
+                builder.SetRandomEndingRoom();
+            }
+            else
+            {
+                builder.SetStartingRoom(4, 4);
+                builder.SetEndingRoom(0, 0);
+            }
             _dungeon = builder.GetDungeon();
             return _dungeon;
         }
