@@ -12,27 +12,26 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Algorithms
 {
   public class BreadthFirstSearchTest
   {
-    private readonly DungeonController _controller;
-    private readonly IDungeon _dungeon;
-    public BreadthFirstSearchTest()
-    {
-      var serviceProvider = new ServiceCollection()
-                  .AddSingleton<IMonsterFactory, MonsterFactory>()
-                  .AddSingleton<IHallwayFactory, HallwayFactory>()
-                  .AddSingleton<IRoomFactory, RoomFactory>()
-                  .AddSingleton<IDungeonFactory, DungeonFactory>()
-                  .AddSingleton<IDungeonBuilder, DungeonBuilder>()
-                  .BuildServiceProvider();
+      private readonly DungeonController _controller;
+      public BreadthFirstSearchTest()
+      {
+        var serviceProvider = new ServiceCollection()
+                    .AddSingleton<IMonsterFactory, MonsterFactory>()
+                    .AddSingleton<IHallwayFactory, HallwayFactory>()
+                    .AddSingleton<IRoomFactory, RoomFactory>()
+                    .AddSingleton<IDungeonFactory, DungeonFactory>()
+                    .AddSingleton<IDungeonBuilder, DungeonBuilder>()
+                    .BuildServiceProvider();
 
-      _controller = new DungeonController(serviceProvider);
-    }
+        _controller = new DungeonController(serviceProvider);
+      }
 
     [Fact]
     public void ItCanSearchBreadthFirst()
     {
       _controller.CreateTestDungeon(5, 5, false);
-      var value = _controller.ActivateTalisman();
-      Assert.Equal(8, value);
+      var result = _controller.ActivateTalisman();
+      Assert.Equal(8, result);
     }
 
     [Fact]

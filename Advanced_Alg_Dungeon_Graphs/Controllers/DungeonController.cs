@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Advanced_Alg_Dungeon_Graphs.Builders;
 using Advanced_Alg_Dungeon_Graphs.Models;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,7 +66,9 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             
         }
 
-        private bool HandleAction()
+    
+
+    private bool HandleAction()
         {
             switch (Console.ReadLine())
             {
@@ -126,6 +129,22 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 current = memory[current];
             }
             return count;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>The amount of destroyed hallways.</returns>
+        public int ActivateGrenade()
+        {
+            List<IRoom> rooms = new List<IRoom>();
+            List<IHallway> hallways = _dungeon.Hallways;
+            hallways = hallways.OrderBy(i => i.Monster.Level).ToList();
+            foreach (var hallway in hallways)
+            {
+                if (rooms.Contains(hallway.RoomA) && rooms.Contains(hallway.RoomB)) continue;
+            }
+            return -1;  
         }
 
         private void PrintDungeon()
