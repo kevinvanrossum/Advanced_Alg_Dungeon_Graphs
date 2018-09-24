@@ -25,20 +25,15 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Algorithms
                   .BuildServiceProvider();
 
       _controller = new DungeonController(serviceProvider);
-
-      _controller.CreateTestDungeon();
     }
 
     [Fact]
     public void ItCanSearchBreadthFirst()
     {
-    // Info: 5x5 dungeon with start 0,0 and end 4,4 SHOULD result in a value of 8.
-    // Info: 10x10 dungeon with start 0,0 and end 4,4 SHOULD STILL result in a value of 8.
-    // Info: 10x10 dungeon with start 0,0 and end 9,9 SHOULD result in a value of 18.
+      _controller.CreateTestDungeon(5, 5);
       var value = _controller.ActivateTalisman();
       Assert.NotStrictEqual(-1, value);
       Assert.Equal(8, value);
     }
-
   }
 }

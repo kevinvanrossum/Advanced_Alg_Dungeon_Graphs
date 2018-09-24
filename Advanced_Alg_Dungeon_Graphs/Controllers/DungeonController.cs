@@ -160,12 +160,12 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
 #region Testing Purpose - Should be moved
         // Creates a default 10x10 dungeon for usage in the tests. Should probably be moved somewhere.
-        public IDungeon CreateTestDungeon()
+        public IDungeon CreateTestDungeon(int x, int y)
         {
             var builder = _serviceProvider.GetService<IDungeonBuilder>();
-            builder.SetSize(10,10);
-            builder.SetStartingRoom(0, 0);
-            builder.SetEndingRoom(4, 4);
+            builder.SetSize(x,y);
+            builder.SetStartingRoom(4, 4);
+            builder.SetEndingRoom(0, 0);
             _dungeon = builder.GetDungeon();
             return _dungeon;
         }

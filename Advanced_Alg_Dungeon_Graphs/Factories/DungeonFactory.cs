@@ -41,41 +41,23 @@ namespace Advanced_Alg_Dungeon_Graphs.Factories
             {
                 for (var y = 0; y < dungeon.YSize; y++)
                 {
-          /*
-          var currentRoom = dungeon.GetRoom(x, y);
-          var adjacentRoomX = dungeon.GetRoom(x + 1, y);
-          var adjacentRoomY = dungeon.GetRoom(x, y + 1);
+                    var currentRoom = dungeon.GetRoom(x, y);
+                    var adjacentRoomEast = dungeon.GetRoom(x + 1, y);
+                    var adjacentRoomSouth = dungeon.GetRoom(x, y + 1);
 
-          SetRoomHallwayAdjacency(dungeon, adjacentRoomX, currentRoom);
-          SetRoomHallwayAdjacency(dungeon, adjacentRoomY, currentRoom);
-          */
-
-          var currentRoom = dungeon.GetRoom(x, y);
-          var adjacentRoomN = dungeon.GetRoom(x, y - 1);
-          var adjacentRoomE = dungeon.GetRoom(x + 1, y);
-          var adjacentRoomS = dungeon.GetRoom(x, y + 1);
-          var adjacentRoomW = dungeon.GetRoom(x - 1, y);
-          try
-          {
-            SetRoomHallwayAdjacency(dungeon, adjacentRoomN, currentRoom);
-            SetRoomHallwayAdjacency(dungeon, adjacentRoomE, currentRoom);
-            SetRoomHallwayAdjacency(dungeon, adjacentRoomS, currentRoom);
-            SetRoomHallwayAdjacency(dungeon, adjacentRoomW, currentRoom);
-          }
-          catch (NullReferenceException e)
-          {
-            Console.WriteLine(e.Message);
-          }
-        }
+                    SetRoomHallwayAdjacency(dungeon, adjacentRoomEast, currentRoom);
+                    SetRoomHallwayAdjacency(dungeon, adjacentRoomSouth, currentRoom);                    
+                  }
             }
         }
 
-        private void SetRoomHallwayAdjacency(Dungeon dungeon, IRoom adjacentRoomY, IRoom currentRoom)
+        private void SetRoomHallwayAdjacency(Dungeon dungeon, IRoom adjacentRoom, IRoom currentRoom)
         {
-            if (adjacentRoomY == null) return;
-            var hallway = _iHallwayFactory.CreateWithRooms(currentRoom, adjacentRoomY);
+            if (adjacentRoom == null) return;
+            var hallway = _iHallwayFactory.CreateWithRooms(currentRoom, adjacentRoom);
             dungeon.AddHallway(hallway);
             currentRoom.AddAdjacentHallway(hallway);
+            adjacentRoom.AddAdjacentHallway(hallway);
         }
 
         private void AddRoomsToDungeon(int xSize, int ySize, IDungeon dungeon)
