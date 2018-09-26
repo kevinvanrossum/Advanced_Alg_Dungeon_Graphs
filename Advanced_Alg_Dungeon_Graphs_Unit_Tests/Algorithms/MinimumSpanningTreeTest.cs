@@ -31,7 +31,14 @@ namespace Advanced_Alg_Dungeon_Graphs_Unit_Tests.Algorithms
           _controller.CreateTestDungeon(5, 5, true);
           var result = _controller.ActivateGrenade();
           Assert.NotStrictEqual(-1, result);
-          
+      }
+
+      [Fact]
+      public void ItContainsAllRooms()
+      {
+        _controller.CreateTestDungeon(3, 3, true);
+        var result = _controller.ActivateGrenade();
+        Assert.Equal(_controller.GetDungeon().Rooms.Count - 1, result); // According to wikipedia, size of MST is amount of vertices - 1
       }
   }
 }

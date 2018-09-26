@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Advanced_Alg_Dungeon_Graphs.Factories;
 using Advanced_Alg_Dungeon_Graphs.Models;
 
@@ -62,6 +62,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Builders
 
         public IDungeonBuilder SetRandomEndingRoom()
         {
+            // Hoeft niet -1?
             var x = _randomNumberGenerator.Next(0, _dungeon.XSize - 1);
             var y = _randomNumberGenerator.Next(0, _dungeon.YSize - 1);
 
