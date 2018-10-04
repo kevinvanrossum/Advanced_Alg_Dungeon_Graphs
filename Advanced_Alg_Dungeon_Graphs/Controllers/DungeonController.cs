@@ -11,6 +11,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
     {
         private readonly ServiceProvider _serviceProvider;
         private IDungeon _dungeon;
+        private bool _playing;
 
         public DungeonController(ServiceProvider serviceProvider)
         {
@@ -56,17 +57,21 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
 
             Console.WriteLine("The end");
-            Console.ReadLine();
         }
 
         private void PlayGame()
         {
+            _playing = true;
             Console.Clear();
 
-            PrintHelpText();
-            PrintDungeon();
 
-            HandleAction();
+            while (_playing)
+            {
+                PrintHelpText();
+                PrintDungeon();
+
+                HandleAction();
+            }
         }
 
 
@@ -75,14 +80,16 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             string command = null;
             while (command == null || command.Equals(""))
             {
-                Console.WriteLine("Acties: talisman, handgranaat, kompas");
+                Console.WriteLine("Acties: talisman, handgranaat, kompas, exit");
                 command = Console.ReadLine()?.ToLower();
             }
 
             if (command.Equals("talisman") || command[0].Equals('t'))
             {
                 var steps = ActivateTalisman();
-                Console.WriteLine($"De talisman licht op en fluistert dat het eindpunt {steps} stappen ver weg is.");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"=> De talisman licht op en fluistert dat het eindpunt {steps} stappen ver weg is.");
+                Console.ResetColor();
             }
 
             if (command.Equals("handgranaat") || command[0].Equals('h'))
@@ -100,6 +107,11 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             {
                 PrintDungeon();
             }
+
+            if (command.Equals("exit") || command[0].Equals('e'))
+            {
+                _playing = false;
+            }
         }
 
         /// <summary>
@@ -112,8 +124,8 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
         {
             if (_dungeon == null || _dungeon.StartRoom == null || _dungeon.EndRoom == null) return -1;
 
-            Dictionary<IRoom, IRoom> roomMemory = new Dictionary<IRoom, IRoom>();
-            Queue<IRoom> queue = new Queue<IRoom>();
+            var roomMemory = new Dictionary<IRoom, IRoom>();
+            var queue = new Queue<IRoom>();
             queue.Enqueue(_dungeon.StartRoom);
             IRoom current = null;
 
@@ -121,9 +133,9 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             {
                 current = queue.Dequeue();
                 if (current == null) continue;
-                foreach (IHallway hallway in current.AdjacentHallways)
+                foreach (var hallway in current.AdjacentHallways)
                 {
-                    IRoom roomAtOtherSide = (hallway.RoomA == current) ? hallway.RoomB : hallway.RoomA;
+                    var roomAtOtherSide = (hallway.RoomA == current) ? hallway.RoomB : hallway.RoomA;
                     if (roomMemory.ContainsKey(roomAtOtherSide)) continue;
                     roomMemory[roomAtOtherSide] = current;
                     queue.Enqueue(roomAtOtherSide);
@@ -183,7 +195,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                     // If it cant find RoomB it must be in a different tree, so add it.
                     if (!FindRoom(hallway.RoomA, hallway.RoomB, mst)) mst.Add(hallway);
                 }
-                
+
                 hallway.Collapse();
             }
 
@@ -201,7 +213,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
         {
             var current = startRoom;
             var memory = new List<IHallway>();
-            foreach (var t in currentMst)
+            foreach (var unused in currentMst)
             {
                 // foreach adjacent hallway of currentRoom that is also in currentMST
                 foreach (var hallway in current.AdjacentHallways)
