@@ -7,225 +7,247 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Advanced_Alg_Dungeon_Graphs.Controllers
 {
-  public class DungeonController
-  {
-    private readonly ServiceProvider _serviceProvider;
-    private IDungeon _dungeon;
-
-    public DungeonController(ServiceProvider serviceProvider)
+    public class DungeonController
     {
-      _serviceProvider = serviceProvider;
-    }
+        private readonly ServiceProvider _serviceProvider;
+        private IDungeon _dungeon;
 
-    public void Explore()
-    {
-      var builder = _serviceProvider.GetService<IDungeonBuilder>();
-
-      Console.WriteLine("How many rooms vertical?");
-      var xSize = Convert.ToInt32(Console.ReadLine());
-      Console.WriteLine("How many rooms horizontal?");
-      var ySize = Convert.ToInt32(Console.ReadLine());
-      builder.SetSize(xSize, ySize);
-
-      Console.WriteLine("Do you want random starting and ending rooms [Y|N]");
-      if (Console.ReadKey().Key == ConsoleKey.Y)
-      {
-        builder
-            .SetRandomStartingRoom()
-            .SetRandomEndingRoom();
-      }
-      else
-      {
-        Console.WriteLine("What is the X of the starting room?");
-        var xStart = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("What is the Y of the starting room?");
-        var yStart = Convert.ToInt32(Console.ReadLine());
-        builder.SetStartingRoom(xStart, yStart);
-
-        Console.WriteLine("What is the X of the ending room?");
-        var xEnd = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("What is the Y of the ending room?");
-        var yEnd = Convert.ToInt32(Console.ReadLine());
-        builder.SetEndingRoom(xEnd, yEnd);
-      }
-
-      _dungeon = builder.GetDungeon();
-
-      Console.Clear();
-
-      PrintHelpText();
-      PrintDungeon();
-      Console.WriteLine("Acties: talisman, handgranaat, kompas");
-
-      while (HandleAction() != false)
-      {
-        Console.ReadLine();
-      }
-      Console.WriteLine("The end");
-      Console.ReadLine();
-
-    }
-
-
-
-    private bool HandleAction()
-    {
-      switch (Console.ReadLine())
-      {
-        case "talisman": Console.WriteLine("The ending room is {0} rooms away.", ActivateTalisman()); return true;
-        case "handgranaat": ActivateGrenade();  break;
-        case "kompas": break;
-        case "map": PrintDungeon(); break;
-          /* case noord
-            * case oost
-            * case zuid
-            * case west
-            */
-      }
-      return false;
-    }
-
-    /// <summary>
-    /// Search Breadth-First through the dungeon from the StartRoom to the EndRoom.
-    /// After memorizing from which Room each Room is reached, call GetShortestPath()
-    /// to determine the length of the shortest path.
-    /// </summary>
-    /// <returns>The amount of steps needed to reach the EndRoom from StartRoom</returns>
-    public int ActivateTalisman()
-    {
-      if (_dungeon == null || _dungeon.StartRoom == null || _dungeon.EndRoom == null) return -1;
-
-      Dictionary<IRoom, IRoom> roomMemory = new Dictionary<IRoom, IRoom>();
-      Queue<IRoom> queue = new Queue<IRoom>();
-      queue.Enqueue(_dungeon.StartRoom);
-      IRoom current = null;
-
-      while (queue.Count > 0 && current != _dungeon.EndRoom)
-      {
-        current = queue.Dequeue();
-        if (current == null) continue;
-        foreach (IHallway hallway in current.AdjacentHallways)
+        public DungeonController(ServiceProvider serviceProvider)
         {
-          IRoom roomAtOtherSide = (hallway.RoomA == current) ? hallway.RoomB : hallway.RoomA;
-          if (roomMemory.ContainsKey(roomAtOtherSide)) continue;
-          roomMemory[roomAtOtherSide] = current;
-          queue.Enqueue(roomAtOtherSide);
-        }
-      }
-      return GetShortestPath(roomMemory);
-    }
-
-    /// <summary>
-    /// Determine the shortest path based on memory.
-    /// </summary>
-    /// <param name="memory">Dictionary containing the Room from which some Room was reached.</param>
-    /// <returns>The amount of steps needed to reach EndRoom from StartRoom.</returns>
-    private int GetShortestPath(Dictionary<IRoom, IRoom> memory)
-    {
-      int count = 0;
-      var current = _dungeon.EndRoom;
-      while (!current.Equals(_dungeon.StartRoom))
-      {
-        count++;
-        current = memory[current];
-      }
-      return count;
-    }
-
-    /// <summary>
-    /// MST by Kruskal
-    /// </summary>
-    /// <returns>The amount of destroyed hallways.</returns>
-    public int ActivateGrenade()
-    {
-      List<IHallway> hallways = _dungeon.Hallways;
-      hallways = hallways.OrderBy(i => i.Monster.Level).ToList();
-
-      List<IRoom> rooms = new List<IRoom>();
-      List<IHallway> mst = new List<IHallway>();
-      
-      
-      foreach (var hallway in hallways)
-      {
-        // Either or both rooms are not yet in the mst
-        if (!rooms.Contains(hallway.RoomA) || !rooms.Contains(hallway.RoomB))
-        {
-          mst.Add(hallway);
-          if (!rooms.Contains(hallway.RoomA)) rooms.Add(hallway.RoomA);
-          if (!rooms.Contains(hallway.RoomB)) rooms.Add(hallway.RoomB);
+            _serviceProvider = serviceProvider;
         }
 
-        // Both rooms are already in the mst, but may not be connected yet
-        else if (rooms.Contains(hallway.RoomA) && rooms.Contains(hallway.RoomB))
+        public void Explore()
         {
-          // continue or hallway connects two parts of mst
-          // check if hallway.RoomA is in a different tree than hallway.RoomB
-          // Find RoomB from RoomA using all hallways in hallways
-          // If it cant find RoomB it must be in a different tree, so add it.
-          if (!FindRoom(hallway.RoomA, hallway.RoomB, mst)) mst.Add(hallway);
-          
+            var builder = _serviceProvider.GetService<IDungeonBuilder>();
+
+            Console.WriteLine("How many rooms vertical?");
+            var xSize = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("How many rooms horizontal?");
+            var ySize = Convert.ToInt32(Console.ReadLine());
+            builder.SetSize(xSize, ySize);
+
+            Console.WriteLine("Do you want random starting and ending rooms [Y|N]");
+            if (Console.ReadKey().Key == ConsoleKey.Y)
+            {
+                builder
+                    .SetRandomStartingRoom()
+                    .SetRandomEndingRoom();
+            }
+            else
+            {
+                Console.WriteLine("What is the X of the starting room?");
+                var xStart = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("What is the Y of the starting room?");
+                var yStart = Convert.ToInt32(Console.ReadLine());
+                builder.SetStartingRoom(xStart, yStart);
+
+                Console.WriteLine("What is the X of the ending room?");
+                var xEnd = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("What is the Y of the ending room?");
+                var yEnd = Convert.ToInt32(Console.ReadLine());
+                builder.SetEndingRoom(xEnd, yEnd);
+            }
+
+            _dungeon = builder.GetDungeon();
+
+
+            PlayGame();
+
+
+            Console.WriteLine("The end");
+            Console.ReadLine();
+        }
+
+        private void PlayGame()
+        {
+            Console.Clear();
+
+            PrintHelpText();
+            PrintDungeon();
+
+            HandleAction();
         }
 
 
-      }
-      return mst.Count;
-    }
-
-    /// <summary>
-    /// Try to find the endRoom from the startRoom using the current minimum spanning tree
-    /// </summary>
-    /// <param name="startRoom">Room from where one starts searching</param>
-    /// <param name="endRoom">Room one wants to find</param>
-    /// <param name="currentMST">Minimum spanning tree at current point in time</param>
-    /// <returns>True if the room can be found, false if not.</returns>
-    private bool FindRoom(IRoom startRoom, IRoom endRoom, List<IHallway> currentMST)
-    {
-      IRoom current = startRoom;
-      List<IHallway> memory = new List<IHallway>();
-      for (int i = 0; i < currentMST.Count; i++)
-      {
-        // foreach adjacent hallway of currentRoom that is also in currentMST
-        foreach (var hallway in current.AdjacentHallways)
+        private void HandleAction()
         {
-          if (currentMST.Contains(hallway) && !memory.Contains(hallway)) // Current hallway is in MST and not in memory
-          {
-            if (hallway.RoomA == endRoom || hallway.RoomB == endRoom) return true;
+            string command = null;
+            while (command == null || command.Equals(""))
+            {
+                Console.WriteLine("Acties: talisman, handgranaat, kompas");
+                command = Console.ReadLine()?.ToLower();
+            }
 
-            if (hallway.RoomA == current) current = hallway.RoomB;
-            else current = hallway.RoomA;
-            memory.Add(hallway);
-          }
+            if (command.Equals("talisman") || command[0].Equals('t'))
+            {
+                var steps = ActivateTalisman();
+                Console.WriteLine($"De talisman licht op en fluistert dat het eindpunt {steps} stappen ver weg is.");
+            }
+
+            if (command.Equals("handgranaat") || command[0].Equals('h'))
+            {
+                ActivateGrenade();
+                PrintDungeon();
+            }
+
+            if (command.Equals("kompas") || command[0].Equals('k'))
+            {
+                return;
+            }
+
+            if (command.Equals("map") || command[0].Equals('m'))
+            {
+                PrintDungeon();
+            }
         }
 
-      }
-      return false;
-    }
-
-    private void PrintDungeon()
-    {
-      var printable = ((IPrintable)_dungeon).ToPrintable();
-
-      PrintWithMarkup(printable);
-    }
-
-    private static void PrintWithMarkup(string printable)
-    {
-      foreach (var c in printable)
-      {
-        if (c == 'E' || c == 'S')
+        /// <summary>
+        /// Search Breadth-First through the dungeon from the StartRoom to the EndRoom.
+        /// After memorizing from which Room each Room is reached, call GetShortestPath()
+        /// to determine the length of the shortest path.
+        /// </summary>
+        /// <returns>The amount of steps needed to reach the EndRoom from StartRoom</returns>
+        public int ActivateTalisman()
         {
-          Console.ForegroundColor = ConsoleColor.Green;
-          Console.Write(c);
-        }
-        else
-        {
-          Console.ResetColor();
-          Console.Write(c);
-        }
-      }
-    }
+            if (_dungeon == null || _dungeon.StartRoom == null || _dungeon.EndRoom == null) return -1;
 
-    public IDungeon GetDungeon()
+            Dictionary<IRoom, IRoom> roomMemory = new Dictionary<IRoom, IRoom>();
+            Queue<IRoom> queue = new Queue<IRoom>();
+            queue.Enqueue(_dungeon.StartRoom);
+            IRoom current = null;
+
+            while (queue.Count > 0 && current != _dungeon.EndRoom)
+            {
+                current = queue.Dequeue();
+                if (current == null) continue;
+                foreach (IHallway hallway in current.AdjacentHallways)
+                {
+                    IRoom roomAtOtherSide = (hallway.RoomA == current) ? hallway.RoomB : hallway.RoomA;
+                    if (roomMemory.ContainsKey(roomAtOtherSide)) continue;
+                    roomMemory[roomAtOtherSide] = current;
+                    queue.Enqueue(roomAtOtherSide);
+                }
+            }
+
+            return GetShortestPath(roomMemory);
+        }
+
+        /// <summary>
+        /// Determine the shortest path based on memory.
+        /// </summary>
+        /// <param name="memory">Dictionary containing the Room from which some Room was reached.</param>
+        /// <returns>The amount of steps needed to reach EndRoom from StartRoom.</returns>
+        private int GetShortestPath(Dictionary<IRoom, IRoom> memory)
+        {
+            var count = 0;
+            var current = _dungeon.EndRoom;
+            while (!current.Equals(_dungeon.StartRoom))
+            {
+                count++;
+                current = memory[current];
+            }
+
+            return count;
+        }
+
+        /// <summary>
+        /// MST by Kruskal
+        /// </summary>
+        /// <returns>The amount of destroyed hallways.</returns>
+        public int ActivateGrenade()
+        {
+            var hallways = _dungeon.Hallways;
+            hallways = hallways.OrderBy(i => i.Monster.Level).ToList();
+
+            var rooms = new List<IRoom>();
+            var mst = new List<IHallway>();
+
+
+            foreach (var hallway in hallways)
+            {
+                // Either or both rooms are not yet in the mst
+                if (!rooms.Contains(hallway.RoomA) || !rooms.Contains(hallway.RoomB))
+                {
+                    mst.Add(hallway);
+                    if (!rooms.Contains(hallway.RoomA)) rooms.Add(hallway.RoomA);
+                    if (!rooms.Contains(hallway.RoomB)) rooms.Add(hallway.RoomB);
+                }
+
+                // Both rooms are already in the mst, but may not be connected yet
+                else if (rooms.Contains(hallway.RoomA) && rooms.Contains(hallway.RoomB))
+                {
+                    // continue or hallway connects two parts of mst
+                    // check if hallway.RoomA is in a different tree than hallway.RoomB
+                    // Find RoomB from RoomA using all hallways in hallways
+                    // If it cant find RoomB it must be in a different tree, so add it.
+                    if (!FindRoom(hallway.RoomA, hallway.RoomB, mst)) mst.Add(hallway);
+                }
+                
+                hallway.Collapse();
+            }
+
+            return mst.Count;
+        }
+
+        /// <summary>
+        /// Try to find the endRoom from the startRoom using the current minimum spanning tree
+        /// </summary>
+        /// <param name="startRoom">Room from where one starts searching</param>
+        /// <param name="endRoom">Room one wants to find</param>
+        /// <param name="currentMst">Minimum spanning tree at current point in time</param>
+        /// <returns>True if the room can be found, false if not.</returns>
+        private bool FindRoom(IRoom startRoom, IRoom endRoom, ICollection<IHallway> currentMst)
+        {
+            var current = startRoom;
+            var memory = new List<IHallway>();
+            foreach (var t in currentMst)
+            {
+                // foreach adjacent hallway of currentRoom that is also in currentMST
+                foreach (var hallway in current.AdjacentHallways)
+                {
+                    if (!currentMst.Contains(hallway) || memory.Contains(hallway)) continue;
+                    if (hallway.RoomA == endRoom || hallway.RoomB == endRoom) return true;
+
+                    current = hallway.RoomA == current ? hallway.RoomB : hallway.RoomA;
+                    memory.Add(hallway);
+                }
+            }
+
+            return false;
+        }
+
+        private void PrintDungeon()
+        {
+            var printable = ((IPrintable) _dungeon).ToPrintable();
+
+            PrintWithMarkup(printable);
+        }
+
+        private static void PrintWithMarkup(string printable)
+        {
+            foreach (var c in printable)
+            {
+                switch (c)
+                {
+                    case 'E':
+                    case 'S':
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write(c);
+                        break;
+                    case '~':
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(c);
+                        break;
+                    default:
+                        Console.ResetColor();
+                        Console.Write(c);
+                        break;
+                }
+            }
+        }
+
+        public IDungeon GetDungeon()
         {
             return _dungeon;
         }
@@ -246,7 +268,8 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             Console.WriteLine(Environment.NewLine);
         }
 
-#region Testing Purpose - Should be moved
+        #region Testing Purpose - Should be moved
+
         /// <summary>
         /// Creates a default dungeon with StartRoom(4,4) and EndRoom(0,0)
         /// </summary>
@@ -256,7 +279,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
         public IDungeon CreateTestDungeon(int x, int y, bool random)
         {
             var builder = _serviceProvider.GetService<IDungeonBuilder>();
-            builder.SetSize(x,y);
+            builder.SetSize(x, y);
             if (random)
             {
                 builder.SetRandomStartingRoom();
@@ -267,9 +290,11 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 builder.SetStartingRoom(4, 4);
                 builder.SetEndingRoom(0, 0);
             }
+
             _dungeon = builder.GetDungeon();
             return _dungeon;
         }
-#endregion
+
+        #endregion
     }
 }

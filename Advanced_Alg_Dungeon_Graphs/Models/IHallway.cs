@@ -5,5 +5,8 @@
         IRoom RoomA { get; set; }
         IRoom RoomB { get; set; }
         IMonster Monster { get; set; }
+        bool Collapsed { get; set; }
+        void Collapse();
+
     }
 }
