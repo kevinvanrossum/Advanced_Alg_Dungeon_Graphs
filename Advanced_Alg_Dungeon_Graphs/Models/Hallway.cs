@@ -8,8 +8,8 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
         public IRoom RoomB { get; set; }
         public IMonster Monster { get; set; }
         public bool Collapsed { get; set; }
-        
-        
+
+
         public void Collapse()
         {
             Collapsed = true;
@@ -21,16 +21,10 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
             Monster = monsterFactory.CreateMonsterWithRandomLevel();
             Collapsed = false;
         }
-        
-        
 
         public string ToPrintable()
         {
-            if (Collapsed)
-            {
-                return "~";
-            }
-            return Monster.Level.ToString();
+            return Collapsed ? "~" : Monster.Level.ToString();
         }
     }
 }
