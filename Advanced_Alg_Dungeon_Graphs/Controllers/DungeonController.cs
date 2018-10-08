@@ -85,7 +85,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 command = Console.ReadLine()?.ToLower();
             }
 
-            if (command.Equals("talisman") || command[0].Equals('t'))
+            if (command[0].Equals('t'))
             {
                 var steps = ActivateTalisman();
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -93,7 +93,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 Console.ResetColor();
             }
 
-            if (command.Equals("handgranaat") || command[0].Equals('h'))
+            if (command[0].Equals('h'))
             {
                 _dungeon.ActivateGrenade();
                 
@@ -102,7 +102,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 Console.ResetColor();
             }
 
-            if (command.Equals("kompas") || command[0].Equals('k'))
+            if (command[0].Equals('k'))
             {
                 var shortestPath = _dungeon.ActivateCompass();
                 foreach (var item in shortestPath)
@@ -118,12 +118,12 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 Console.ResetColor();
             }
 
-            if (command.Equals("map") || command[0].Equals('m'))
+            if (command[0].Equals('m'))
             {
                 PrintDungeon();
             }
 
-            if (command.Equals("exit") || command[0].Equals('e'))
+            if (command[0].Equals('e'))
             {
                 _playing = false;
             }
