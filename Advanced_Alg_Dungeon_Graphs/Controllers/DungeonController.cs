@@ -95,7 +95,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
             if (command.Equals("handgranaat") || command[0].Equals('h'))
             {
-                ActivateGrenade();
+                _dungeon.ActivateGrenade();
                 
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("=> De kerker schudt op zijn grondvesten, de tegenstander in een aangrenzende hallway is vermorzeld! Een donderend geluid maakt duidelijk dat gedeeltes van de kerker zijn ingestort...");
@@ -139,6 +139,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
         /// <returns>The amount of destroyed hallways.</returns>
         public int ActivateGrenade()
         {
+            _dungeon.ActivateGrenade();
             var hallways = _dungeon.Hallways;
             hallways = hallways.OrderBy(i => i.Monster.Level).ToList();
 

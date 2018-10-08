@@ -95,34 +95,9 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
             return count;
         }
 
-        public string ToPrintable()
+        public void ActivateGrenade()
         {
-            var result = "";
-            for (var y = 0; y < YSize; y++)
-            {
-                for (var x = 0; x < XSize; x++)
-                {
-                    var currentRoom = (Room) GetRoom(x, y);
-                    result += $"{currentRoom.ToPrintable()}";
-                    if (currentRoom.X >= XSize - 1) continue;
-                    var hallway = (Hallway) currentRoom.AdjacentHallways.First(h => h.RoomA == currentRoom);
-                    result += $" {hallway.ToPrintable()} ";
-                }
 
-                result += Environment.NewLine;
-
-                for (var x = 0; x < XSize; x++)
-                {
-                    var currentRoom = (Room) GetRoom(x, y);
-                    if (currentRoom.Y >= YSize - 1) continue;
-                    var hallway = (Hallway) currentRoom.AdjacentHallways.Last(h => h.RoomA == currentRoom);
-                    result += $"{hallway.ToPrintable()}   ";
-                }
-
-                result += Environment.NewLine;
-            }
-
-            return result;
         }
 
         public void ActivateCompass()
@@ -167,6 +142,36 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
                 Console.WriteLine("Je gaat van {0},{1} naar {2},{3}", reverseTraversal.X, reverseTraversal.Y, memory[reverseTraversal].Item1.X, memory[reverseTraversal].Item1.Y);
                 reverseTraversal = memory[reverseTraversal].Item1;
             }
+        }
+
+        public string ToPrintable()
+        {
+            var result = "";
+            for (var y = 0; y < YSize; y++)
+            {
+                for (var x = 0; x < XSize; x++)
+                {
+                    var currentRoom = (Room)GetRoom(x, y);
+                    result += $"{currentRoom.ToPrintable()}";
+                    if (currentRoom.X >= XSize - 1) continue;
+                    var hallway = (Hallway)currentRoom.AdjacentHallways.First(h => h.RoomA == currentRoom);
+                    result += $" {hallway.ToPrintable()} ";
+                }
+
+                result += Environment.NewLine;
+
+                for (var x = 0; x < XSize; x++)
+                {
+                    var currentRoom = (Room)GetRoom(x, y);
+                    if (currentRoom.Y >= YSize - 1) continue;
+                    var hallway = (Hallway)currentRoom.AdjacentHallways.Last(h => h.RoomA == currentRoom);
+                    result += $"{hallway.ToPrintable()}   ";
+                }
+
+                result += Environment.NewLine;
+            }
+
+            return result;
         }
     }
 

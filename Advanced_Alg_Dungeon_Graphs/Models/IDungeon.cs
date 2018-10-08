@@ -18,6 +18,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
         void AddRoom(IRoom room);
 
         void AddHallway(IHallway hallway);
+        void ActivateGrenade();
 
         void ActivateCompass();
 
