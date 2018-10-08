@@ -85,7 +85,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 command = Console.ReadLine()?.ToLower();
             }
 
-            if (command.Equals("talisman") || command[0].Equals('t'))
+            if (command[0].Equals('t'))
             {
                 var steps = ActivateTalisman();
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -93,7 +93,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 Console.ResetColor();
             }
 
-            if (command.Equals("handgranaat") || command[0].Equals('h'))
+            if (command[0].Equals('h'))
             {
                 ActivateGrenade();
                 
@@ -102,7 +102,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 Console.ResetColor();
             }
 
-            if (command.Equals("kompas") || command[0].Equals('k'))
+            if (command[0].Equals('k'))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Je haalt het kompas uit je zak. Het trilt in je hand en projecteert in lichtgevende letters op de muur:");
@@ -112,12 +112,12 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 Console.ResetColor();
             }
 
-            if (command.Equals("map") || command[0].Equals('m'))
+            if (command[0].Equals('m'))
             {
                 PrintDungeon();
             }
 
-            if (command.Equals("exit") || command[0].Equals('e'))
+            if (command[0].Equals('e'))
             {
                 _playing = false;
             }
