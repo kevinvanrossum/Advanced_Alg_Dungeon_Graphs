@@ -19,6 +19,8 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
 
         void AddHallway(IHallway hallway);
 
+        void ActivateCompass();
+
         IRoom GetRoom(int x, int y);
         
         int Talisman();

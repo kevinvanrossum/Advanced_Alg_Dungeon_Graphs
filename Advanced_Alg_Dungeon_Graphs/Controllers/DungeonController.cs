@@ -104,6 +104,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
             if (command[0].Equals('k'))
             {
+                _dungeon.ActivateCompass();
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Je haalt het kompas uit je zak. Het trilt in je hand en projecteert in lichtgevende letters op de muur:");
                 // Hieronder moet nog dynamisch worden
