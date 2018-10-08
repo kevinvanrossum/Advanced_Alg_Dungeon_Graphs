@@ -95,7 +95,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
             if (command[0].Equals('h'))
             {
-                ActivateGrenade();
+                _dungeon.ActivateGrenade();
                 
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("=> De kerker schudt op zijn grondvesten, de tegenstander in een aangrenzende hallway is vermorzeld! Een donderend geluid maakt duidelijk dat gedeeltes van de kerker zijn ingestort...");
@@ -104,7 +104,12 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
             if (command[0].Equals('k'))
             {
-                _dungeon.ActivateCompass();
+                var shortestPath = _dungeon.ActivateCompass();
+                foreach (var item in shortestPath)
+                {
+                    item.IsShortestPath = true;
+                }
+
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Je haalt het kompas uit je zak. Het trilt in je hand en projecteert in lichtgevende letters op de muur:");
                 // Hieronder moet nog dynamisch worden
@@ -145,6 +150,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
         /// <returns>The amount of destroyed hallways.</returns>
         public int ActivateGrenade()
         {
+            _dungeon.ActivateGrenade();
             var hallways = _dungeon.Hallways;
             hallways = hallways.OrderBy(i => i.Monster.Level).ToList();
 
@@ -214,6 +220,13 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
         private static void PrintWithMarkup(string printable)
         {
+            if (printable == "XSP" || printable == "*SP")
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                printable = printable.Substring(0, 1);
+                Console.Write(printable);
+                return;
+            }
             foreach (var c in printable)
             {
                 switch (c)

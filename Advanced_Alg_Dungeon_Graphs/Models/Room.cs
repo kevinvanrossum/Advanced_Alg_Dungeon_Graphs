@@ -8,7 +8,9 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
         public int Y { get; set; }
         public bool IsStartRoom { get; set; }
         public bool IsEndRoom { get; set; }
-        
+        public bool IsShortestPath { get; set; }
+
+
         public List<IHallway> AdjacentHallways { get; set; }
 
         public Room()
@@ -31,6 +33,11 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
             if (IsEndRoom)
             {
                 return State.EndingPoint.ToString();
+            }
+
+            if (IsShortestPath)
+            {
+                return State.NotVisited.ToString() + "SP";
             }
             return State.NotVisited.ToString();
         }

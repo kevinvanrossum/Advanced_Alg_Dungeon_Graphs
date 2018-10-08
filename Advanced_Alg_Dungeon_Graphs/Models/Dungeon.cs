@@ -95,6 +95,117 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
             return count;
         }
 
+        public void ActivateGrenade()
+        {
+
+        }
+
+        public List<IRoom> ActivateCompass()
+        {
+            var previous = new Dictionary<IRoom, IRoom>();
+            var distances = new Dictionary<IRoom, int>();
+            var rooms = new List<IRoom>();
+
+            List<IRoom> path = null;
+
+            foreach (var room in Rooms)
+            {
+                if (room == StartRoom) distances[room] = 0;
+                else distances[room] = int.MaxValue;
+                rooms.Add(room);
+            }
+
+            while (rooms.Count != 0)
+            {
+                rooms.Sort((x, y) => distances[x] - distances[y]);
+
+                var smallest = rooms[0];
+                rooms.Remove(smallest);
+
+                if (smallest == EndRoom)
+                {
+                    path = new List<IRoom>();
+                    while (previous.ContainsKey(smallest))
+                    {
+                        path.Add(smallest);
+                        smallest = previous[smallest];
+                    }
+                    break;
+                }
+
+                if (distances[smallest] == int.MaxValue) break;
+
+                foreach(var neighbor in smallest.AdjacentHallways)
+                {
+                    
+
+                    if (smallest == neighbor.RoomA)
+                    {
+                        var alt = distances[smallest] + neighbor.Monster.Level;
+                        if (alt < distances[neighbor.RoomB])
+                        {
+                            distances[neighbor.RoomB] = alt;
+                            previous[neighbor.RoomB] = smallest;
+                        }
+                    }
+                    else if (smallest == neighbor.RoomB)
+                    {
+                        var alt = distances[smallest] + neighbor.Monster.Level;
+                        if (alt < distances[neighbor.RoomA])
+                        {
+                            distances[neighbor.RoomA] = alt;
+                            previous[neighbor.RoomA] = smallest;
+                        }
+                    }
+                }
+                
+            }
+            return path;
+
+
+            //Dictionary<IRoom, Tuple<IRoom, int>> memory = new Dictionary<IRoom, Tuple<IRoom, int>>();
+            //List<IRoom> previousRooms = new List<IRoom>();
+
+            //memory.Add(StartRoom, new Tuple<IRoom, int>(null, 0));
+
+            //IRoom current = StartRoom;
+
+            //while (!previousRooms.Contains(EndRoom))
+            //{
+            //    foreach (IHallway hallway in current.AdjacentHallways)
+            //    {
+            //        if (hallway.Collapsed) continue;
+            //        int currentDistance = memory[current].Item2;
+
+            //        if (!memory.ContainsKey(hallway.RoomB))memory.Add(hallway.RoomB, new Tuple<IRoom, int>(current, hallway.Monster.Level + currentDistance));
+            //        else if (memory.ContainsKey(hallway.RoomB))
+            //        {
+            //            int futureDistance = currentDistance + hallway.Monster.Level;
+            //            if (futureDistance < memory[hallway.RoomB].Item2) memory[hallway.RoomB] = new Tuple<IRoom, int>(current, futureDistance);
+            //        }
+            //    }
+
+            //    previousRooms.Add(current);
+            //    int max = int.MaxValue;
+            //    foreach (var kvp in memory)
+            //    {
+            //        if (previousRooms.Contains(kvp.Key)) continue;
+            //        if (kvp.Value.Item2 < max)
+            //        {
+            //            max = kvp.Value.Item2;
+            //            current = kvp.Key;
+            //        }
+            //    }
+            //}
+
+            //IRoom reverseTraversal = EndRoom;
+            //while (reverseTraversal != StartRoom)
+            //{
+            //    Console.WriteLine("Je gaat van {0},{1} naar {2},{3}", reverseTraversal.X, reverseTraversal.Y, memory[reverseTraversal].Item1.X, memory[reverseTraversal].Item1.Y);
+            //    reverseTraversal = memory[reverseTraversal].Item1;
+            //}
+        }
+
         public string ToPrintable()
         {
             var result = "";
@@ -102,10 +213,10 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
             {
                 for (var x = 0; x < XSize; x++)
                 {
-                    var currentRoom = (Room) GetRoom(x, y);
+                    var currentRoom = (Room)GetRoom(x, y);
                     result += $"{currentRoom.ToPrintable()}";
                     if (currentRoom.X >= XSize - 1) continue;
-                    var hallway = (Hallway) currentRoom.AdjacentHallways.First(h => h.RoomA == currentRoom);
+                    var hallway = (Hallway)currentRoom.AdjacentHallways.First(h => h.RoomA == currentRoom);
                     result += $" {hallway.ToPrintable()} ";
                 }
 
@@ -113,9 +224,9 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
 
                 for (var x = 0; x < XSize; x++)
                 {
-                    var currentRoom = (Room) GetRoom(x, y);
+                    var currentRoom = (Room)GetRoom(x, y);
                     if (currentRoom.Y >= YSize - 1) continue;
-                    var hallway = (Hallway) currentRoom.AdjacentHallways.Last(h => h.RoomA == currentRoom);
+                    var hallway = (Hallway)currentRoom.AdjacentHallways.Last(h => h.RoomA == currentRoom);
                     result += $"{hallway.ToPrintable()}   ";
                 }
 
@@ -123,50 +234,6 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
             }
 
             return result;
-        }
-
-        public void ActivateCompass()
-        {
-            Dictionary<IRoom, Tuple<IRoom, int>> memory = new Dictionary<IRoom, Tuple<IRoom, int>>();
-            List<IRoom> previousRooms = new List<IRoom>();
-
-            memory.Add(StartRoom, new Tuple<IRoom, int>(null, 0));
-
-            IRoom current = StartRoom;
-
-            while (!previousRooms.Contains(EndRoom))
-            {
-                foreach (IHallway hallway in current.AdjacentHallways)
-                {
-                    if (hallway.Collapsed) continue;
-                    int currentDistance = memory[current].Item2;
-
-                    if (!memory.ContainsKey(hallway.RoomB))memory.Add(hallway.RoomB, new Tuple<IRoom, int>(current, hallway.Monster.Level + currentDistance));
-                    else if (memory.ContainsKey(hallway.RoomB))
-                    {
-                        int futureDistance = currentDistance + hallway.Monster.Level;
-                        if (futureDistance < memory[hallway.RoomB].Item2) memory[hallway.RoomB] = new Tuple<IRoom, int>(current, futureDistance);
-                    }
-                }
-                previousRooms.Add(current);
-                int max = int.MaxValue;
-                foreach (var kvp in memory)
-                {
-                    if (previousRooms.Contains(kvp.Key)) continue;
-                    if (kvp.Value.Item2 < max)
-                    {
-                        max = kvp.Value.Item2;
-                        current = kvp.Key;
-                    }
-                }
-            }
-
-            IRoom reverseTraversal = EndRoom;
-            while (reverseTraversal != StartRoom)
-            {
-                Console.WriteLine("Je gaat van {0},{1} naar {2},{3}", reverseTraversal.X, reverseTraversal.Y, memory[reverseTraversal].Item1.X, memory[reverseTraversal].Item1.Y);
-                reverseTraversal = memory[reverseTraversal].Item1;
-            }
         }
     }
 
