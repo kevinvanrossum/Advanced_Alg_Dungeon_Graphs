@@ -105,6 +105,12 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             if (command.Equals("kompas") || command[0].Equals('k'))
             {
                 _dungeon.ActivateCompass();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Je haalt het kompas uit je zak. Het trilt in je hand en projecteert in lichtgevende letters op de muur:");
+                // Hieronder moet nog dynamisch worden
+                Console.WriteLine("Noord – Noord – Oost – Oost – Noord – Noord – West");
+                Console.WriteLine("4 tegenstanders (level 2, level 1, level 3, level 1)");
+                Console.ResetColor();
             }
 
             if (command.Equals("map") || command[0].Equals('m'))
@@ -122,53 +128,9 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             Console.ReadLine();
         }
 
-        /// <summary>
-        /// Search Breadth-First through the dungeon from the StartRoom to the EndRoom.
-        /// After memorizing from which Room each Room is reached, call GetShortestPath()
-        /// to determine the length of the shortest path.
-        /// </summary>
-        /// <returns>The amount of steps needed to reach the EndRoom from StartRoom</returns>
         public int ActivateTalisman()
         {
-            if (_dungeon == null || _dungeon.StartRoom == null || _dungeon.EndRoom == null) return -1;
-
-            var roomMemory = new Dictionary<IRoom, IRoom>();
-            var queue = new Queue<IRoom>();
-            queue.Enqueue(_dungeon.StartRoom);
-            IRoom current = null;
-
-            while (queue.Count > 0 && current != _dungeon.EndRoom)
-            {
-                current = queue.Dequeue();
-                if (current == null) continue;
-                foreach (var hallway in current.AdjacentHallways)
-                {
-                    var roomAtOtherSide = (hallway.RoomA == current) ? hallway.RoomB : hallway.RoomA;
-                    if (roomMemory.ContainsKey(roomAtOtherSide)) continue;
-                    roomMemory[roomAtOtherSide] = current;
-                    queue.Enqueue(roomAtOtherSide);
-                }
-            }
-
-            return GetShortestPath(roomMemory);
-        }
-
-        /// <summary>
-        /// Determine the shortest path based on memory.
-        /// </summary>
-        /// <param name="memory">Dictionary containing the Room from which some Room was reached.</param>
-        /// <returns>The amount of steps needed to reach EndRoom from StartRoom.</returns>
-        private int GetShortestPath(Dictionary<IRoom, IRoom> memory)
-        {
-            var count = 0;
-            var current = _dungeon.EndRoom;
-            while (!current.Equals(_dungeon.StartRoom))
-            {
-                count++;
-                current = memory[current];
-            }
-
-            return count;
+            return _dungeon.Talisman();
         }
 
         /// <summary>

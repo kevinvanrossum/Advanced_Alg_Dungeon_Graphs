@@ -22,5 +22,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
         void ActivateCompass();
 
         IRoom GetRoom(int x, int y);
+        
+        int Talisman();
     }
 }
