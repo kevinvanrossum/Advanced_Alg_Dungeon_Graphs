@@ -104,7 +104,12 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
             if (command.Equals("kompas") || command[0].Equals('k'))
             {
-                _dungeon.ActivateCompass();
+                var shortestPath = _dungeon.ActivateCompass();
+                foreach (var item in shortestPath)
+                {
+                    item.IsShortestPath = true;
+                }
+
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Je haalt het kompas uit je zak. Het trilt in je hand en projecteert in lichtgevende letters op de muur:");
                 // Hieronder moet nog dynamisch worden
@@ -209,6 +214,13 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
         private static void PrintWithMarkup(string printable)
         {
+            if (printable == "XSP" || printable == "*SP")
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                printable = printable.Substring(0, 1);
+                Console.Write(printable);
+                return;
+            }
             foreach (var c in printable)
             {
                 switch (c)

@@ -20,7 +20,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
         void AddHallway(IHallway hallway);
         void ActivateGrenade();
 
-        void ActivateCompass();
+        List<IRoom> ActivateCompass();
 
         IRoom GetRoom(int x, int y);
         

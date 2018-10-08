@@ -9,6 +9,8 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
         bool IsStartRoom { get; set; }
         bool IsEndRoom { get; set; }
 
+        bool IsShortestPath { get; set; }
+
         List<IHallway> AdjacentHallways { get; set; }
 
         void AddAdjacentHallway(IHallway hallway);
