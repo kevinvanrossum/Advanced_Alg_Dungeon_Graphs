@@ -104,7 +104,12 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
             if (command.Equals("kompas") || command[0].Equals('k'))
             {
-                return;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Je haalt het kompas uit je zak. Het trilt in je hand en projecteert in lichtgevende letters op de muur:");
+                // Hieronder moet nog dynamisch worden
+                Console.WriteLine("Noord – Noord – Oost – Oost – Noord – Noord – West");
+                Console.WriteLine("4 tegenstanders (level 2, level 1, level 3, level 1)");
+                Console.ResetColor();
             }
 
             if (command.Equals("map") || command[0].Equals('m'))
