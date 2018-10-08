@@ -62,11 +62,12 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
         private void PlayGame()
         {
             _playing = true;
-            Console.Clear();
 
 
             while (_playing)
-            {
+            {            
+                Console.Clear();
+
                 PrintHelpText();
                 PrintDungeon();
 
@@ -95,7 +96,10 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             if (command.Equals("handgranaat") || command[0].Equals('h'))
             {
                 ActivateGrenade();
-                PrintDungeon();
+                
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("=> De kerker schudt op zijn grondvesten, de tegenstander in een aangrenzende hallway is vermorzeld! Een donderend geluid maakt duidelijk dat gedeeltes van de kerker zijn ingestort...");
+                Console.ResetColor();
             }
 
             if (command.Equals("kompas") || command[0].Equals('k'))
@@ -112,6 +116,10 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             {
                 _playing = false;
             }
+
+            Console.WriteLine();
+            Console.WriteLine("Druk op een knop om verder te gaan");
+            Console.ReadLine();
         }
 
         /// <summary>
