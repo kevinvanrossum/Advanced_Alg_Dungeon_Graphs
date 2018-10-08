@@ -75,7 +75,6 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             }
         }
 
-
         private void HandleAction()
         {
             string command = null;
@@ -88,8 +87,9 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             if (command[0].Equals('t'))
             {
                 var steps = ActivateTalisman();
+                var stepWord = steps > 1 ? "stappen" : "stap";
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"=> De talisman licht op en fluistert dat het eindpunt {steps} stappen ver weg is.");
+                Console.WriteLine($"=> De talisman licht op en fluistert dat het eindpunt {steps} {stepWord} ver weg is.");
                 Console.ResetColor();
             }
 
@@ -121,6 +121,12 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             if (command[0].Equals('e'))
             {
                 _playing = false;
+            }
+
+            if (command[0].Equals('c'))
+            {
+                // change this to only in dijkstra shortest path
+                _dungeon.Hallways.ForEach(h => h.Monster.TrainInHyperBolicTimeChamber());
             }
 
             Console.WriteLine();
@@ -243,6 +249,8 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             PrintWithMarkup("X = Room: niet bezocht");
             Console.WriteLine();
             PrintWithMarkup("* = Room: bezocht");
+            Console.WriteLine();
+            PrintWithMarkup("# = Room: kortste pad");
             Console.WriteLine();
             PrintWithMarkup("~ = Hallway: ingestort");
             Console.WriteLine();
