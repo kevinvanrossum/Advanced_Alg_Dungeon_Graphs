@@ -104,7 +104,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
             if (command.Equals("kompas") || command[0].Equals('k'))
             {
-                return;
+                _dungeon.ActivateCompass();
             }
 
             if (command.Equals("map") || command[0].Equals('m'))
