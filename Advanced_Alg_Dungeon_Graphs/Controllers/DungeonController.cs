@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Advanced_Alg_Dungeon_Graphs.Builders;
 using Advanced_Alg_Dungeon_Graphs.Models;
@@ -65,7 +66,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
 
             while (_playing)
-            {            
+            {
                 Console.Clear();
 
                 PrintHelpText();
@@ -74,7 +75,6 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 HandleAction();
             }
         }
-
 
         private void HandleAction()
         {
@@ -88,17 +88,20 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             if (command[0].Equals('t'))
             {
                 var steps = ActivateTalisman();
+                var stepWord = steps > 1 ? "stappen" : "stap";
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"=> De talisman licht op en fluistert dat het eindpunt {steps} stappen ver weg is.");
+                Console.WriteLine(
+                    $"=> De talisman licht op en fluistert dat het eindpunt {steps} {stepWord} ver weg is.");
                 Console.ResetColor();
             }
 
             if (command[0].Equals('h'))
             {
                 _dungeon.ActivateGrenade();
-                
+
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("=> De kerker schudt op zijn grondvesten, de tegenstander in een aangrenzende hallway is vermorzeld! Een donderend geluid maakt duidelijk dat gedeeltes van de kerker zijn ingestort...");
+                Console.WriteLine(
+                    "=> De kerker schudt op zijn grondvesten, de tegenstander in een aangrenzende hallway is vermorzeld! Een donderend geluid maakt duidelijk dat gedeeltes van de kerker zijn ingestort...");
                 Console.ResetColor();
             }
 
@@ -111,7 +114,8 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 }
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Je haalt het kompas uit je zak. Het trilt in je hand en projecteert in lichtgevende letters op de muur:");
+                Console.WriteLine(
+                    "Je haalt het kompas uit je zak. Het trilt in je hand en projecteert in lichtgevende letters op de muur:");
                 // Hieronder moet nog dynamisch worden
                 Console.WriteLine("Noord – Noord – Oost – Oost – Noord – Noord – West");
                 Console.WriteLine("4 tegenstanders (level 2, level 1, level 3, level 1)");
@@ -126,6 +130,21 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             if (command[0].Equals('e'))
             {
                 _playing = false;
+            }
+
+            if (command[0].Equals('c'))
+            {
+                // change this to only in dijkstra shortest path
+                _dungeon.Hallways.ForEach(h => h.Monster.TrainInHyperBolicTimeChamber());
+            }
+
+            if (command[0].Equals('u'))
+            {
+                var randomLevel = new Random();
+                _dungeon.Hallways
+                    .Where(h => !h.Collapsed)
+                    .ToList()
+                    .ForEach(h => h.Monster.Level = randomLevel.Next(0, 9));
             }
 
             Console.WriteLine();
@@ -221,6 +240,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                 Console.Write(printable);
                 return;
             }
+
             foreach (var c in printable)
             {
                 switch (c)
@@ -256,6 +276,8 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             PrintWithMarkup("X = Room: niet bezocht");
             Console.WriteLine();
             PrintWithMarkup("* = Room: bezocht");
+            Console.WriteLine();
+            PrintWithMarkup("# = Room: kortste pad");
             Console.WriteLine();
             PrintWithMarkup("~ = Hallway: ingestort");
             Console.WriteLine();

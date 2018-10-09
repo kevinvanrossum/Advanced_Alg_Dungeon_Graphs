@@ -3,5 +3,6 @@
     public interface IMonster
     {
         int Level { get; set; }
+        void TrainInHyperBolicTimeChamber();
     }
 }

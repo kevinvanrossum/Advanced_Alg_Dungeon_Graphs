@@ -3,5 +3,10 @@
     public class Monster : IMonster
     {
         public int Level { get; set; }
+        
+        public void TrainInHyperBolicTimeChamber()
+        {
+            Level = 9;
+        }
     }
 }
