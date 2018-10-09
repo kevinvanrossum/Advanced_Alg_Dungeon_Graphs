@@ -113,6 +113,8 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                     item.IsShortestPath = true;
                 }
 
+                
+
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(
                     "Je haalt het kompas uit je zak. Het trilt in je hand en projecteert in lichtgevende letters op de muur:");
@@ -154,17 +156,17 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
         public int ActivateTalisman()
         {
-            return _dungeon.Talisman();
+            return _dungeon.ActivateTalisman();
         }
 
         /// <summary>
         /// MST by Kruskal
         /// </summary>
         /// <returns>The amount of destroyed hallways.</returns>
-        public int ActivateGrenade()
+        public void ActivateGrenade()
         {
             _dungeon.ActivateGrenade();
-            var hallways = _dungeon.Hallways;
+            /*var hallways = _dungeon.Hallways;
             hallways = hallways.OrderBy(i => i.Monster.Level).ToList();
 
             var rooms = new List<IRoom>();
@@ -193,8 +195,9 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
                 hallway.Collapse();
             }
-
+            
             return mst.Count;
+            */
         }
 
         /// <summary>

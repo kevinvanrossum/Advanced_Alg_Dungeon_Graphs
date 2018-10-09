@@ -52,7 +52,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
         /// to determine the length of the shortest path.
         /// </summary>
         /// <returns>The amount of steps needed to reach the EndRoom from StartRoom</returns>
-        public int Talisman()
+        public int ActivateTalisman()
         {
             if (StartRoom == null || EndRoom == null) return -1;
 
@@ -95,25 +95,57 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
             return count;
         }
 
+        /// <summary>
+        /// Adds an item to the list if the item is not in the list.
+        /// </summary>
+        private void TryAdd<T>(List<T> list, T item)
+        {
+            if (!list.Contains(item)) list.Add(item);
+        }
+
+        /// <summary>
+        /// Adds all items to the list that are not in the list
+        /// </summary>
+        private void TryAddRange<T>(List<T> list, List<T> addableItems)
+        {
+            foreach (var add in addableItems)
+            {
+                if (!list.Contains(add)) list.Add(add);
+            }
+        }
+
         public void ActivateGrenade()
         {
-            IRoom current = StartRoom;
-            int closest = int.MaxValue;
-            IRoom next = null;
-            List<IHallway> options = new List<IHallway>();
-            foreach (var hallway in current.AdjacentHallways) options.Add(hallway);
+            List<IHallway> mst = new List<IHallway>();
+            List<IRoom> rooms = new List<IRoom>();
+            List<IRoom> roomMemory = new List<IRoom>();
+            List<IHallway> possible_hallways = new List<IHallway>();
+            rooms.Add(StartRoom);
+            possible_hallways.AddRange(StartRoom.AdjacentHallways);
+            IHallway addHallway = null;
 
-
-            foreach (var hallway in options)
+            do
             {
-                if (!options.Contains(hallway)) options.Add(hallway);
-                if (hallway.Monster.Level < closest)
+                List<IHallway> sortedList = possible_hallways.OrderBy(o => o.Monster.Level).ToList();
+                addHallway = sortedList.First();
+
+                if (!rooms.Contains(addHallway.RoomA) || !rooms.Contains(addHallway.RoomB))
                 {
-                    closest = hallway.Monster.Level;
-                    if (hallway.RoomA == current) next = hallway.RoomB;
-                    else if (hallway.RoomB == current) next = hallway.RoomA;
+                    TryAdd(rooms, addHallway.RoomA);
+                    TryAdd(rooms, addHallway.RoomB);
+                    TryAddRange(possible_hallways, addHallway.RoomA.AdjacentHallways);
+                    TryAddRange(possible_hallways, addHallway.RoomB.AdjacentHallways);
+                    mst.Add(addHallway);
+                    possible_hallways.Remove(addHallway);
                 }
-            }
+                else
+                {
+                    possible_hallways.Remove(addHallway);
+                }
+
+            } while (mst.Count < Rooms.Count - 1);
+
+            foreach (var hallway in Hallways) if (!mst.Contains(hallway)) hallway.Collapse();
         }
 
         public List<IRoom> ActivateCompass()
