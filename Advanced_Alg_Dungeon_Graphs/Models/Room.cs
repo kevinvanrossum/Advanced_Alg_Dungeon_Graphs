@@ -37,7 +37,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
 
             if (IsShortestPath)
             {
-                return State.NotVisited.ToString() + "SP";
+                return State.ShortestPath.ToString();
             }
             return State.NotVisited.ToString();
         }

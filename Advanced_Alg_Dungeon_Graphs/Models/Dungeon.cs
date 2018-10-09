@@ -117,33 +117,27 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
         public void ActivateGrenade()
         {
             List<IHallway> mst = new List<IHallway>();
-            List<IRoom> rooms = new List<IRoom>();
-            List<IRoom> roomMemory = new List<IRoom>();
+            List<IRoom> mstRooms = new List<IRoom>();
             List<IHallway> possible_hallways = new List<IHallway>();
-            rooms.Add(StartRoom);
+
+            mstRooms.Add(StartRoom);
             possible_hallways.AddRange(StartRoom.AdjacentHallways);
-            IHallway addHallway = null;
 
             do
             {
-                List<IHallway> sortedList = possible_hallways.OrderBy(o => o.Monster.Level).ToList();
-                addHallway = sortedList.First();
+                var sortedList = possible_hallways.OrderBy(o => o.Monster.Level).ToList();
+                var toAdd = sortedList.First();
 
-                if (!rooms.Contains(addHallway.RoomA) || !rooms.Contains(addHallway.RoomB))
+                if (!mstRooms.Contains(toAdd.RoomA) || !mstRooms.Contains(toAdd.RoomB))
                 {
-                    TryAdd(rooms, addHallway.RoomA);
-                    TryAdd(rooms, addHallway.RoomB);
-                    TryAddRange(possible_hallways, addHallway.RoomA.AdjacentHallways);
-                    TryAddRange(possible_hallways, addHallway.RoomB.AdjacentHallways);
-                    mst.Add(addHallway);
-                    possible_hallways.Remove(addHallway);
+                    TryAdd(mstRooms, toAdd.RoomA);
+                    TryAdd(mstRooms, toAdd.RoomB);
+                    TryAddRange(possible_hallways, toAdd.RoomA.AdjacentHallways);
+                    TryAddRange(possible_hallways, toAdd.RoomB.AdjacentHallways);
+                    mst.Add(toAdd);
                 }
-                else
-                {
-                    possible_hallways.Remove(addHallway);
-                }
-
-            } while (mst.Count < Rooms.Count - 1);
+                possible_hallways.Remove(toAdd);
+            } while (mst.Count < Rooms.Count - 1 && mstRooms.Count < Rooms.Count);
 
             foreach (var hallway in Hallways) if (!mst.Contains(hallway)) hallway.Collapse();
         }
@@ -185,8 +179,6 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
 
                 foreach(var neighbor in smallest.AdjacentHallways)
                 {
-                    
-
                     if (smallest == neighbor.RoomA)
                     {
                         var alt = distances[smallest] + neighbor.Monster.Level;

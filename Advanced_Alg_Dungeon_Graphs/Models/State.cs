@@ -6,6 +6,7 @@
         public static char EndingPoint => 'E';
         public static char NotVisited => 'X';
         public static char Visited => '*';
+        public static char ShortestPath => '#';
         public static char Collapsed => '~';
         public static char Horizontal => '|';
         public static char Veritcal => '-';

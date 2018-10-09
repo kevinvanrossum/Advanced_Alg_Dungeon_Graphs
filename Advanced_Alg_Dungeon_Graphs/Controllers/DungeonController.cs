@@ -236,14 +236,6 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
         private static void PrintWithMarkup(string printable)
         {
-            if (printable == "XSP" || printable == "*SP")
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                printable = printable.Substring(0, 1);
-                Console.Write(printable);
-                return;
-            }
-
             foreach (var c in printable)
             {
                 switch (c)
@@ -255,6 +247,10 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                         break;
                     case '~':
                         Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(c);
+                        break;
+                    case '#':
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.Write(c);
                         break;
                     default:
