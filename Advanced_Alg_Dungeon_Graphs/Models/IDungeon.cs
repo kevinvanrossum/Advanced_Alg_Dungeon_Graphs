@@ -26,5 +26,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
         
         int ActivateTalisman();
         void Restore();
+        void ActivateCheat();
+        void ActivateRandomizer();
     }
 }

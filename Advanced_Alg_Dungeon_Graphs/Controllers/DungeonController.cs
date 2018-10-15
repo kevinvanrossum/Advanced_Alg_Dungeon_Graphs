@@ -136,17 +136,14 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
             if (command[0].Equals('c'))
             {
+                _dungeon.ActivateCheat();
                 // change this to only in dijkstra shortest path
-                _dungeon.Hallways.ForEach(h => h.Monster.TrainInHyperBolicTimeChamber());
+                
             }
 
             if (command[0].Equals('u'))
             {
-                var randomLevel = new Random();
-                _dungeon.Hallways
-                    .Where(h => !h.Collapsed)
-                    .ToList()
-                    .ForEach(h => h.Monster.Level = randomLevel.Next(0, 9));
+                _dungeon.ActivateRandomizer();
             }
 
             if (command[0].Equals('r'))

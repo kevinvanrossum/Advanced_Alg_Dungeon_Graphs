@@ -41,9 +41,9 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
             Hallways.Add(hallway);
         }
 
-        private void clearShortestPath()
+        private void ClearShortestPath()
         {
-            foreach (var hallway in Hallways) hallway.Collapsed = false;
+            foreach (var room in Rooms) room.IsShortestPath = false;
         }
 
         public IRoom GetRoom(int x, int y)
@@ -128,7 +128,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
 
         public void ActivateGrenade()
         {
-            clearShortestPath();
+            ClearShortestPath();
 
             List<IHallway> mst = new List<IHallway>();
             List<IRoom> mstRooms = new List<IRoom>();
@@ -158,7 +158,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
 
         public List<IRoom> ActivateCompass()
         {
-            clearShortestPath();
+            ClearShortestPath();
 
             var previous = new Dictionary<IRoom, IRoom>();
             var distances = new Dictionary<IRoom, int>();
@@ -219,6 +219,22 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
                 
             }
             return path;
+        }
+
+        public void ActivateCheat()
+        {
+            ClearShortestPath();
+            Hallways.ForEach(h => h.Monster.TrainInHyperBolicTimeChamber());
+        }
+
+        public void ActivateRandomizer()
+        {
+            ClearShortestPath();
+            var randomLevel = new Random();
+            Hallways
+                .Where(h => !h.Collapsed)
+                .ToList()
+                .ForEach(h => h.Monster.Level = randomLevel.Next(0, 9));
         }
 
         public string ToPrintable()
