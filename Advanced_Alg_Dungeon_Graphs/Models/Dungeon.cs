@@ -41,6 +41,11 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
             Hallways.Add(hallway);
         }
 
+        private void clearShortestPath()
+        {
+            foreach (var hallway in Hallways) hallway.Collapsed = false;
+        }
+
         public IRoom GetRoom(int x, int y)
         {
             return Rooms.FirstOrDefault(room => room.X == x && room.Y == y);
@@ -67,6 +72,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
                 if (current == null) continue;
                 foreach (var hallway in current.AdjacentHallways)
                 {
+                    if (hallway.Collapsed) continue;
                     var roomAtOtherSide = hallway.RoomA == current ? hallway.RoomB : hallway.RoomA;
                     if (roomMemory.ContainsKey(roomAtOtherSide)) continue;
                     roomMemory[roomAtOtherSide] = current;
@@ -116,6 +122,8 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
 
         public void ActivateGrenade()
         {
+            clearShortestPath();
+
             List<IHallway> mst = new List<IHallway>();
             List<IRoom> mstRooms = new List<IRoom>();
             List<IHallway> possible_hallways = new List<IHallway>();
@@ -144,6 +152,8 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
 
         public List<IRoom> ActivateCompass()
         {
+            clearShortestPath();
+
             var previous = new Dictionary<IRoom, IRoom>();
             var distances = new Dictionary<IRoom, int>();
             var rooms = new List<IRoom>();
@@ -179,6 +189,8 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
 
                 foreach(var neighbor in smallest.AdjacentHallways)
                 {
+                    if (neighbor.Collapsed) continue;
+
                     if (smallest == neighbor.RoomA)
                     {
                         var alt = distances[smallest] + neighbor.Monster.Level;

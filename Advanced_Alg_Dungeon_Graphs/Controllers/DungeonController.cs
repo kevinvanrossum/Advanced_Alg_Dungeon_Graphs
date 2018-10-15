@@ -166,38 +166,6 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
         public void ActivateGrenade()
         {
             _dungeon.ActivateGrenade();
-            /*var hallways = _dungeon.Hallways;
-            hallways = hallways.OrderBy(i => i.Monster.Level).ToList();
-
-            var rooms = new List<IRoom>();
-            var mst = new List<IHallway>();
-
-
-            foreach (var hallway in hallways)
-            {
-                // Either or both rooms are not yet in the mst
-                if (!rooms.Contains(hallway.RoomA) || !rooms.Contains(hallway.RoomB))
-                {
-                    mst.Add(hallway);
-                    if (!rooms.Contains(hallway.RoomA)) rooms.Add(hallway.RoomA);
-                    if (!rooms.Contains(hallway.RoomB)) rooms.Add(hallway.RoomB);
-                }
-
-                // Both rooms are already in the mst, but may not be connected yet
-                else if (rooms.Contains(hallway.RoomA) && rooms.Contains(hallway.RoomB))
-                {
-                    // continue or hallway connects two parts of mst
-                    // check if hallway.RoomA is in a different tree than hallway.RoomB
-                    // Find RoomB from RoomA using all hallways in hallways
-                    // If it cant find RoomB it must be in a different tree, so add it.
-                    if (!FindRoom(hallway.RoomA, hallway.RoomB, mst)) mst.Add(hallway);
-                }
-
-                hallway.Collapse();
-            }
-            
-            return mst.Count;
-            */
         }
 
         /// <summary>
