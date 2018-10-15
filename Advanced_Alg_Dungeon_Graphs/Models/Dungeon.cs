@@ -136,7 +136,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
 
             // Set random adjacent hallway to level 0
             Random random = new Random();
-            StartRoom.AdjacentHallways[random.Next(1, StartRoom.AdjacentHallways.Count + 1)].Monster.Level = 0;
+            StartRoom.AdjacentHallways[random.Next(1, StartRoom.AdjacentHallways.Count)].Monster.Level = 0;
 
             mstRooms.Add(StartRoom);
             possible_hallways.AddRange(StartRoom.AdjacentHallways);

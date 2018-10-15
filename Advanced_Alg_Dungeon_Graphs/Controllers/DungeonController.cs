@@ -213,7 +213,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                         Console.Write(c);
                         break;
                     case '~':
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.Black;
                         Console.Write(c);
                         break;
                     case '#':
@@ -250,34 +250,5 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
             PrintWithMarkup("0 = Hallway: level tegenstander (cost)");
             Console.WriteLine(Environment.NewLine);
         }
-
-        #region Testing Purpose - Should be moved
-
-        /// <summary>
-        /// Creates a default dungeon with StartRoom(4,4) and EndRoom(0,0)
-        /// </summary>
-        /// <param name="x">Width of dungeon</param>
-        /// <param name="y">Height of dungeon</param>
-        /// <returns>A new dungeon.</returns>
-        public IDungeon CreateTestDungeon(int x, int y, bool random)
-        {
-            var builder = _serviceProvider.GetService<IDungeonBuilder>();
-            builder.SetSize(x, y);
-            if (random)
-            {
-                builder.SetRandomStartingRoom();
-                builder.SetRandomEndingRoom();
-            }
-            else
-            {
-                builder.SetStartingRoom(4, 4);
-                builder.SetEndingRoom(0, 0);
-            }
-
-            _dungeon = builder.GetDungeon();
-            return _dungeon;
-        }
-
-        #endregion
     }
 }
