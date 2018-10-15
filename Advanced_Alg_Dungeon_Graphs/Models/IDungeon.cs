@@ -25,5 +25,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
         IRoom GetRoom(int x, int y);
         
         int ActivateTalisman();
+        void ActivateCheat();
+        void ActivateRandomizer();
     }
 }
