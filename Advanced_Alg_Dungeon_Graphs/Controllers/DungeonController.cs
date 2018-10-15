@@ -149,6 +149,11 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
                     .ForEach(h => h.Monster.Level = randomLevel.Next(0, 9));
             }
 
+            if (command[0].Equals('r'))
+            {
+                _dungeon.Restore();
+            }
+
             Console.WriteLine();
             Console.WriteLine("Druk op een knop om verder te gaan");
             Console.ReadLine();

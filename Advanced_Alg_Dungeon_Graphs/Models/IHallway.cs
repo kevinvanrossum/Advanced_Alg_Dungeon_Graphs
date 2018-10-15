@@ -8,5 +8,6 @@
         bool Collapsed { get; set; }
         void Collapse();
 
+        void Restore();
     }
 }

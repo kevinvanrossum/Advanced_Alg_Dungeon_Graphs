@@ -83,6 +83,12 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
             return GetShortestPath(roomMemory);
         }
 
+        public void Restore()
+        {
+            Hallways.ForEach(h => h.Restore());
+            ClearShortestPath();
+        }
+
         /// <summary>
         /// Determine the shortest path based on memory.
         /// </summary>

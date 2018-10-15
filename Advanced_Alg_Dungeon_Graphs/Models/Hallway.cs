@@ -15,6 +15,13 @@ namespace Advanced_Alg_Dungeon_Graphs.Models
             Collapsed = true;
         }
 
+        public void Restore()
+        {
+            var monsterFactory =  new MonsterFactory();
+            Monster = monsterFactory.CreateMonsterWithRandomLevel();
+            Collapsed = false;
+        }
+
         public Hallway()
         {
             var monsterFactory = new MonsterFactory();
