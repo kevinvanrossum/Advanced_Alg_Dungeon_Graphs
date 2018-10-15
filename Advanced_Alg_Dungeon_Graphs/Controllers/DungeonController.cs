@@ -117,10 +117,7 @@ namespace Advanced_Alg_Dungeon_Graphs.Controllers
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(
-                    "Je haalt het kompas uit je zak. Het trilt in je hand en projecteert in lichtgevende letters op de muur:");
-                // Hieronder moet nog dynamisch worden
-                Console.WriteLine("Noord – Noord – Oost – Oost – Noord – Noord – West");
-                Console.WriteLine("4 tegenstanders (level 2, level 1, level 3, level 1)");
+                    "Je haalt het kompas uit je zak. Het trilt in je hand en projecteert een lichtgevend pad op de kaart.");
                 Console.ResetColor();
             }
 
